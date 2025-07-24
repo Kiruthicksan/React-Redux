@@ -1,24 +1,26 @@
 import React from 'react';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 
 const UserList = ({ users, onEdit, onDelete }) => {
   return (
-    <ul className="list-group">
+    <Row className="mt-4">
       {users.map((user) => (
-        <li key={user.id} className="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong>{user.name}</strong> — {user.email}
-          </div>
-          <div>
-            <button className="btn btn-sm btn-warning me-2" onClick={() => onEdit(user)}>
-              Edit
-            </button>
-            <button className="btn btn-sm btn-danger" onClick={() => onDelete(user.id)}>
-              Delete
-            </button>
-          </div>
-        </li>
+        <Col md={4} key={user.id} className="mb-4">
+          <Card>
+            <Card.Body>
+              <Card.Title>{user.firstName} {user.lastName}</Card.Title>
+              <Card.Text>Email: {user.email}</Card.Text>
+              <Button variant="warning" size="sm" className="me-2" onClick={() => onEdit(user)}>
+                Edit
+              </Button>
+              <Button variant="danger" size="sm" onClick={() => onDelete(user.id)}>
+                Delete
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       ))}
-    </ul>
+    </Row>
   );
 };
 

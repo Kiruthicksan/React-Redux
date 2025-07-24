@@ -1,53 +1,50 @@
-import { useEffect, useState } from "react";
-import UserCard from "../components/UserCard";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import UserCard from "../components/UserCard";
+import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+import './Home.css'
 
 const Home = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("https://fakestoreapi.com/users");
+      setUsers(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error)
+      setError("Something went wrong while fetching users");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("https://fakestoreapi.com/users");
-        setUsers(response.data);
-        setError(null);
-      } catch (error) {
-        console.error(error);
-        setError("There is a problem while fetching users");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUsers();
   }, []);
 
-  if (error) {
-    return (
-      <div className="text-danger text-center mt-4">
-        <h4>{error}</h4>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="text-center mt-4">
-        <span className="spinner-border" role="status"></span>
-        <p>Loading Users</p>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <h1 className="text-center mt-3">Users</h1>
-      <div className="d-flex flex-wrap justify-content-center align-items-center">
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </div>
+    <div className="home-container container">
+      <h1 className="text-center my-4 display-5 fw-bold">Users</h1>
+
+      {loading ? (
+        <div className="text-center">
+          <Spinner animation="border" />
+        </div>
+      ) : error ? (
+        <Alert variant="danger">{error}</Alert>
+      ) : (
+        <div className="user-grid row">
+          {users.map((user) => (
+            <div className="col-md-4 col-sm-6 mb-4" key={user.id}>
+              <UserCard user={user} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

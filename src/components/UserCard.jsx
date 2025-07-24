@@ -1,20 +1,16 @@
 import React from "react";
-import { Card } from 'react-bootstrap'
+import { Card } from "react-bootstrap";
 
-const UserCard = ({user}) => {
+const UserCard = ({ user }) => {
   return (
-    <div>
-     
-      <Card style={{ width: "18rem" }} className="mt-5 ms-5 ">
-        <Card.Body>
-          <Card.Title className="text-center">Users Info</Card.Title>
-          <Card.Text>First Name: {user.name.firstname}</Card.Text>
-          <Card.Text>Last Name: {user.name.lastname}</Card.Text>
-          <Card.Text>Name: {user.username}</Card.Text>
-          <Card.Text>Email: {user.email}</Card.Text>
-        </Card.Body>
-      </Card>
-    </div>
+    <Card className="user-card shadow-sm h-100">
+      <Card.Body>
+        <Card.Title className="text-center text-primary fw-bold">User Info</Card.Title>
+        <Card.Text><strong>First Name:</strong> {user.name.firstname}</Card.Text>
+        <Card.Text><strong>Last Name:</strong> {user.name.lastname}</Card.Text>
+        <Card.Text><strong>Email:</strong> {user.email}</Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 
